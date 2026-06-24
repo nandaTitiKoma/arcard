@@ -12,11 +12,13 @@
     <!-- CSS styling for Scan Overlay and fonts -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
         body {
             margin: 0;
             overflow: hidden;
             font-family: 'Outfit', sans-serif;
         }
+
         #ar-overlay {
             position: fixed;
             top: 0;
@@ -34,6 +36,7 @@
             color: white;
             text-align: center;
         }
+
         .overlay-content {
             max-width: 320px;
             padding: 20px;
@@ -41,6 +44,7 @@
             flex-direction: column;
             align-items: center;
         }
+
         .scan-frame {
             width: 160px;
             height: 160px;
@@ -51,6 +55,7 @@
             box-shadow: 0 0 20px rgba(94, 23, 235, 0.4);
             animation: pulseFrame 2s infinite ease-in-out;
         }
+
         .scan-line {
             position: absolute;
             width: 100%;
@@ -59,15 +64,36 @@
             animation: scanAnimation 2s infinite linear;
             box-shadow: 0 0 10px #5e17eb;
         }
+
         @keyframes scanAnimation {
-            0% { top: 0%; }
-            50% { top: 100%; }
-            100% { top: 0%; }
+            0% {
+                top: 0%;
+            }
+
+            50% {
+                top: 100%;
+            }
+
+            100% {
+                top: 0%;
+            }
         }
+
         @keyframes pulseFrame {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.05); opacity: 1; box-shadow: 0 0 30px rgba(94, 23, 235, 0.6); }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+                box-shadow: 0 0 30px rgba(94, 23, 235, 0.6);
+            }
         }
+
         h2 {
             font-weight: 700;
             font-size: 1.5rem;
@@ -77,6 +103,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
         p {
             font-weight: 300;
             font-size: 0.9rem;
@@ -209,63 +236,49 @@
             <div class="scan-frame">
                 <div class="scan-line"></div>
             </div>
-            <h2>Arahkan Kamera ke Hiro Marker</h2>
-            <p>Scan marker "Hiro" untuk memunculkan avatar 3D, website portofolio, dan tombol interaktif Anda.</p>
+            <h2>Arahkan Kamera ke Marker Kartu Nama</h2>
+            <p>Scan marker kustom Anda untuk memunculkan avatar 3D, website portofolio, dan tombol interaktif Anda.</p>
         </div>
     </div>
 
     <!-- Main AR Scene -->
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" cursor="rayOrigin: mouse" raycaster="objects: .clickable">
-
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best; detectionMode: mono;"
+        renderer="logarithmicDepthBuffer: true; antialias: true;" cursor="rayOrigin: mouse"
+        raycaster="objects: .clickable">
         <!-- Asset Preloading -->
         <a-assets>
             <img id="portfolio-img" src="website.png">
             <a-asset-item id="stadium-logo" src="model 3d/logo anfield/scene.gltf"></a-asset-item>
         </a-assets>
 
-        <!-- Hiro Marker -->
-        <a-marker preset="hiro" id="hiro-marker" smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5">
-            
+        <!-- Custom Pattern Marker -->
+        <a-marker type="pattern" url="pattmarker.patt" id="custom-marker" smooth="true" smoothCount="20" smoothTolerance="0.05"
+            smoothThreshold="5">
+
             <!-- Group container for all virtual components -->
             <a-entity id="card-group" position="0 0 0">
 
                 <!-- 1. 3D Logo / Model (Left side of the card, standing vertically) -->
-                <a-entity id="3d-avatar"
-                          gltf-model="#stadium-logo"
-                          position="-1.0 0.2 -0.1"
-                          scale="0.5 0.5 0.5"
-                          rotation="0 30 0"
-                          animation="property: rotation; to: 0 390 0; loop: true; dur: 12000; easing: linear">
+                <a-entity id="3d-avatar" gltf-model="#stadium-logo" position="-1.0 0.2 -0.1" scale="1.5 1.5 1.5"
+                    rotation="0 30 0"
+                    animation="property: rotation; to: 0 390 0; loop: true; dur: 12000; easing: linear">
                 </a-entity>
 
                 <!-- 2. Website Portfolio Panel (Floating in the center-top, tilted for optimal camera perspective) -->
                 <!-- Layered design: Box base (dark bezel) + Plane front (texture) + Text (description) -->
-                <a-box id="website-panel"
-                       class="clickable"
-                       clickable-button="url: https://www.google.com"
-                       position="0.35 0.8 -0.3"
-                       width="1.6"
-                       height="1.05"
-                       depth="0.05"
-                       color="#13131e"
-                       material="roughness: 0.4; metalness: 0.8;"
-                       rotation="-15 0 0"
-                       animation="property: position; to: 0.35 0.85 -0.3; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine">
-                    
+                <a-box id="website-panel" class="clickable" clickable-button="url: https://www.google.com"
+                    position="0.35 0.8 -0.3" width="1.6" height="1.05" depth="0.05" color="#13131e"
+                    material="roughness: 0.4; metalness: 0.8;" rotation="-15 0 0"
+                    animation="property: position; to: 0.35 0.85 -0.3; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine">
+
                     <!-- Webpage screenshot texture -->
-                    <a-plane width="1.5"
-                             height="0.95"
-                             position="0 0 0.026"
-                             material="src: #portfolio-img; shader: flat;">
+                    <a-plane width="1.5" height="0.95" position="0 0 0.026"
+                        material="src: #portfolio-img; shader: flat;">
                     </a-plane>
 
                     <!-- Tap Action Hint Text -->
-                    <a-text value="TAP PANEL UNTUK MENGUNJUNGI WEBSITE"
-                            position="0 -0.56 0"
-                            align="center"
-                            color="#a29bfe"
-                            width="2.4"
-                            font="mozillavr">
+                    <a-text value="TAP PANEL UNTUK MENGUNJUNGI WEBSITE" position="0 -0.56 0" align="center"
+                        color="#a29bfe" width="2.4" font="mozillavr">
                     </a-text>
                 </a-box>
 
@@ -273,70 +286,35 @@
                 <!-- Solid purple beveled buttons with dynamic flat vector icon plates -->
 
                 <!-- WhatsApp Button -->
-                <a-box class="clickable"
-                       clickable-button="url: https://wa.me/6281234567890"
-                       position="-0.45 0.05 0.5"
-                       width="0.22"
-                       height="0.22"
-                       depth="0.04"
-                       color="#5e17eb"
-                       rotation="-15 0 0">
-                    <a-plane width="0.18"
-                             height="0.18"
-                             position="0 0 0.025"
-                             social-icon="type: whatsapp"
-                             material="shader: flat; transparent: true;">
+                <a-box class="clickable" clickable-button="url: https://wa.me/6281234567890" position="-0.45 0.05 0.5"
+                    width="0.22" height="0.22" depth="0.04" color="#5e17eb" rotation="-15 0 0">
+                    <a-plane width="0.18" height="0.18" position="0 0 0.025" social-icon="type: whatsapp"
+                        material="shader: flat; transparent: true;">
                     </a-plane>
                 </a-box>
 
                 <!-- LinkedIn Button -->
-                <a-box class="clickable"
-                       clickable-button="url: https://linkedin.com/in/rizkyabdillah"
-                       position="-0.15 0.05 0.5"
-                       width="0.22"
-                       height="0.22"
-                       depth="0.04"
-                       color="#5e17eb"
-                       rotation="-15 0 0">
-                    <a-plane width="0.18"
-                             height="0.18"
-                             position="0 0 0.025"
-                             social-icon="type: linkedin"
-                             material="shader: flat; transparent: true;">
+                <a-box class="clickable" clickable-button="url: https://linkedin.com/in/rizkyabdillah"
+                    position="-0.15 0.05 0.5" width="0.22" height="0.22" depth="0.04" color="#5e17eb"
+                    rotation="-15 0 0">
+                    <a-plane width="0.18" height="0.18" position="0 0 0.025" social-icon="type: linkedin"
+                        material="shader: flat; transparent: true;">
                     </a-plane>
                 </a-box>
 
                 <!-- Portfolio Website/Globe Button -->
-                <a-box class="clickable"
-                       clickable-button="url: https://www.google.com"
-                       position="0.15 0.05 0.5"
-                       width="0.22"
-                       height="0.22"
-                       depth="0.04"
-                       color="#5e17eb"
-                       rotation="-15 0 0">
-                    <a-plane width="0.18"
-                             height="0.18"
-                             position="0 0 0.025"
-                             social-icon="type: globe"
-                             material="shader: flat; transparent: true;">
+                <a-box class="clickable" clickable-button="url: https://www.google.com" position="0.15 0.05 0.5"
+                    width="0.22" height="0.22" depth="0.04" color="#5e17eb" rotation="-15 0 0">
+                    <a-plane width="0.18" height="0.18" position="0 0 0.025" social-icon="type: globe"
+                        material="shader: flat; transparent: true;">
                     </a-plane>
                 </a-box>
 
                 <!-- Facebook Button -->
-                <a-box class="clickable"
-                       clickable-button="url: https://facebook.com/rizkyabdillah"
-                       position="0.45 0.05 0.5"
-                       width="0.22"
-                       height="0.22"
-                       depth="0.04"
-                       color="#5e17eb"
-                       rotation="-15 0 0">
-                    <a-plane width="0.18"
-                             height="0.18"
-                             position="0 0 0.025"
-                             social-icon="type: facebook"
-                             material="shader: flat; transparent: true;">
+                <a-box class="clickable" clickable-button="url: https://facebook.com/rizkyabdillah"
+                    position="0.45 0.05 0.5" width="0.22" height="0.22" depth="0.04" color="#5e17eb" rotation="-15 0 0">
+                    <a-plane width="0.18" height="0.18" position="0 0 0.025" social-icon="type: facebook"
+                        material="shader: flat; transparent: true;">
                     </a-plane>
                 </a-box>
 
