@@ -219,21 +219,21 @@
 
         <!-- Asset Preloading -->
         <a-assets>
-            <img id="portfolio-img" src="portfolio_screenshot.png">
+            <img id="portfolio-img" src="website.png">
+            <a-asset-item id="stadium-logo" src="model 3d/logo anfield/scene.gltf"></a-asset-item>
         </a-assets>
 
         <!-- Hiro Marker -->
-        <a-marker preset="hiro" id="hiro-marker">
+        <a-marker preset="hiro" id="hiro-marker" smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5">
             
             <!-- Group container for all virtual components -->
             <a-entity id="card-group" position="0 0 0">
 
-                <!-- 1. 3D Character Avatar (Left side of the card, standing vertically) -->
-                <!-- Ready Player Me developer GLB avatar model -->
+                <!-- 1. 3D Logo / Model (Left side of the card, standing vertically) -->
                 <a-entity id="3d-avatar"
-                          gltf-model="https://readyplayerme.github.io/visage/male.glb"
-                          position="-0.75 0 -0.1"
-                          scale="0.45 0.45 0.45"
+                          gltf-model="#stadium-logo"
+                          position="-1.0 0.2 -0.1"
+                          scale="0.5 0.5 0.5"
                           rotation="0 30 0"
                           animation="property: rotation; to: 0 390 0; loop: true; dur: 12000; easing: linear">
                 </a-entity>
@@ -243,28 +243,28 @@
                 <a-box id="website-panel"
                        class="clickable"
                        clickable-button="url: https://www.google.com"
-                       position="0.25 0.7 -0.2"
-                       width="1.15"
-                       height="0.75"
-                       depth="0.04"
+                       position="0.35 0.8 -0.3"
+                       width="1.6"
+                       height="1.05"
+                       depth="0.05"
                        color="#13131e"
                        material="roughness: 0.4; metalness: 0.8;"
                        rotation="-15 0 0"
-                       animation="property: position; to: 0.25 0.75 -0.2; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine">
+                       animation="property: position; to: 0.35 0.85 -0.3; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine">
                     
                     <!-- Webpage screenshot texture -->
-                    <a-plane width="1.07"
-                             height="0.67"
-                             position="0 0 0.021"
+                    <a-plane width="1.5"
+                             height="0.95"
+                             position="0 0 0.026"
                              material="src: #portfolio-img; shader: flat;">
                     </a-plane>
 
                     <!-- Tap Action Hint Text -->
                     <a-text value="TAP PANEL UNTUK MENGUNJUNGI WEBSITE"
-                            position="0 -0.42 0"
+                            position="0 -0.56 0"
                             align="center"
                             color="#a29bfe"
-                            width="1.8"
+                            width="2.4"
                             font="mozillavr">
                     </a-text>
                 </a-box>
@@ -283,7 +283,7 @@
                        rotation="-15 0 0">
                     <a-plane width="0.18"
                              height="0.18"
-                             position="0 0 0.021"
+                             position="0 0 0.025"
                              social-icon="type: whatsapp"
                              material="shader: flat; transparent: true;">
                     </a-plane>
@@ -300,7 +300,7 @@
                        rotation="-15 0 0">
                     <a-plane width="0.18"
                              height="0.18"
-                             position="0 0 0.021"
+                             position="0 0 0.025"
                              social-icon="type: linkedin"
                              material="shader: flat; transparent: true;">
                     </a-plane>
@@ -317,7 +317,7 @@
                        rotation="-15 0 0">
                     <a-plane width="0.18"
                              height="0.18"
-                             position="0 0 0.021"
+                             position="0 0 0.025"
                              social-icon="type: globe"
                              material="shader: flat; transparent: true;">
                     </a-plane>
@@ -334,7 +334,7 @@
                        rotation="-15 0 0">
                     <a-plane width="0.18"
                              height="0.18"
-                             position="0 0 0.021"
+                             position="0 0 0.025"
                              social-icon="type: facebook"
                              material="shader: flat; transparent: true;">
                     </a-plane>
@@ -345,7 +345,7 @@
         </a-marker>
 
         <!-- Camera Entity -->
-        <a-entity camera></a-entity>
+        <a-entity camera="near: 0.1; far: 100;"></a-entity>
 
     </a-scene>
 
