@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AR Business Card</title>
+    <!-- 1. Load A-Frame dan AR.js (Sesuai urutan di modul presentasi) -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+    <!-- Script untuk mendeteksi klik/tap dan membuka website -->
+    <script>
+        AFRAME.registerComponent('buka-website', {
+            init: function () {
+                this.el.addEventListener('click', function (evt) {
+                    // Ganti URL ini dengan link website personalmu!
+                    window.open('https://www.google.com', '_blank');
+                });
+            }
+        });
+    </script>
+</head>
+
+<body style="margin: 0; overflow: hidden;">
+
+    <!-- Mulai Scene AR -->
+    <!-- cursor='rayOrigin: mouse' sangat penting agar kita bisa tap layar HP untuk nge-klik objek 3D -->
+    <a-scene embedded arjs="sourceType: webcam;" cursor="rayOrigin: mouse" raycaster="objects: .clickable">
+
+        <!-- Marker (Gunakan Hiro untuk testing awal) -->
+        <a-marker preset="hiro">
+
+            <!-- Syarat Tugas: Minimal 2 Teks -->
+            <a-text value="Rizky Abdillah" position="-1 0.5 -1" color="black" rotation="-90 0 0"
+                scale="1.5 1.5 1.5"></a-text>
+            <a-text value="Web Developer" position="-1 0.2 -0.5" color="gray" rotation="-90 0 0"
+                scale="0.8 0.8 0.8"></a-text>
+
+            <!-- Syarat Animasi & Tombol Interaktif -->
+            <!-- Objek 3D ini bertindak sebagai tombol. Class "clickable" memungkinkannya di-tap -->
+            <a-box position="1 0.5 -1" depth="0.5" height="0.5" width="0.5" color="#58a6ff" class="clickable"
+                buka-website animation="property: rotation; to: 0 360 0; loop: true; dur: 3000;">
+                <!-- Teks di atas kotak tombol -->
+                <a-text value="Buka Web!" align="center" position="0 0.6 0" color="blue" scale="0.5 0.5 0.5"
+                    rotation="-90 0 0"></a-text>
+            </a-box>
+
+        </a-marker>
+
+        <!-- Kamera -->
+        <a-entity camera></a-entity>
+    </a-scene>
+
+</body>
+
+</html>
